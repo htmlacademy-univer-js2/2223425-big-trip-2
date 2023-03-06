@@ -6,7 +6,7 @@ const createTripListTemplate = () => (
     
     class TripList {
         getTemplate() {
-            return createFilterTemplate();
+            return createTripListTemplate();
         }
         getElement() {
             if (!this.element) {

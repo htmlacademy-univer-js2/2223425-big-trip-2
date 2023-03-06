@@ -31,7 +31,7 @@ const createSortTemplate = () => (
     
     class Sort  {
         getTemplate() {
-            return createFilterTemplate();
+            return createSortTemplate();
         }
         getElement() {
             if (!this.element) {

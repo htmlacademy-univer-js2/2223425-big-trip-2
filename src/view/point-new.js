@@ -160,7 +160,7 @@ const createPointNewTemplate = () => (
     
     class PointNew {
         getTemplate() {
-            return createFilterTemplate();
+            return createPointNewTemplate();
         }
         getElement() {
             if (!this.element) {

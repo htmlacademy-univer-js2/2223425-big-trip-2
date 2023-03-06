@@ -160,7 +160,7 @@ const createPointEditTemplate = () => (
     
     class PointEdit {
         getTemplate() {
-            return createFilterTemplate();
+            return createPointEditTemplate();
         }
         getElement() {
             if (!this.element) {

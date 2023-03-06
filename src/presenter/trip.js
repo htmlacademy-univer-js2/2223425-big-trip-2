@@ -10,11 +10,11 @@ this.component = new TripList();
 this.container = container;
 }
 init() {
-render (new Sort(), this.container, RenderPosition. BEFOREEND);
+render (new Sort(), this.container, RenderPosition.BEFOREEND);
 render (this.component, this.container);
-render (new PointNew(), this.component .getElement (), RenderPosition.BEFOREEND); render (new PointEdit(), this.component .getElement (), RenderPosition. BEFOREEND) ;
+render (new PointNew(), this.component.getElement (), RenderPosition.BEFOREEND); render (new PointEdit(), this.component.getElement (), RenderPosition.BEFOREEND) ;
 for (let i = 0; i < 3; i++) {
-render (new Point (), this. component .getelement(), RenderPosition. BEFOREEND);
+render (new Point (), this.component.getelement(), RenderPosition.BEFOREEND);
 }
 }
 }

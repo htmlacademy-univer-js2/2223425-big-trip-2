@@ -41,7 +41,7 @@ const createPointTemplate = () => (
     
     class Point {
         getTemplate() {
-            return createFilterTemplate();
+            return createPointTemplate();
         }
         getElement() {
             if (!this.element) {
