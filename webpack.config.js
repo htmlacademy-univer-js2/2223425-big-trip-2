@@ -1,4 +1,3 @@
-
 const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -15,7 +14,6 @@ module.exports = {
       patterns: [{ from: 'public' }],
     }),
   ],
-  
   module: {
     rules: [
         {
@@ -29,6 +27,5 @@ module.exports = {
         }
     ]
   }
-
 };
 
