@@ -4,6 +4,7 @@ import PointEdit from '../view/point-edit';
 import PointNew from '../view/point-new';
 import Sort from '../view/sort';
 import TripList from '../view/trip-list';
+
 class Trip {
   constructor ({container}) {
     this.component = new TripList();
@@ -15,7 +16,7 @@ class Trip {
     render (this.component, this.container);
     render (new PointNew(), this.component.getElement (), RenderPosition.BEFOREEND); render (new PointEdit(), this.component.getElement (), RenderPosition.BEFOREEND) ;
     for (let i = 0; i < 3; i++) {
-      render (new Point (), this.component.getelement(), RenderPosition.BEFOREEND);
+      render (new Point (), this.component.getElement(), RenderPosition.BEFOREEND);
     }
   }
 }
