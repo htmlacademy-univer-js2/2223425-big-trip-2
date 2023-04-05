@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import { getDateTime } from '../util.js';
 
 const renderDestinationPictures = (pictures) => {
@@ -158,35 +158,39 @@ const createPointEditTemplate = (point, destinations, offers) => {
   </li>`;
 };
 
-export default class PointEdit {
+export default class PointEdit extends AbstractView {
   #point = null;
   #destination = null;
   #offers = null;
-  #element = null;
 
   constructor(point, destination, offers) {
+    super();
     this.#point = point;
     this.#destination = destination;
     this.#offers = offers;
   }
 
   get template() {
-    return createPointEditTemplate(
-      this.#point,
-      this.#destination,
-      this.#offers
-    );
+    return createPointEditTemplate(this.#point, this.#destination, this.#offers);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setPreviewClickHandler = (callback) => {
+    this._callback.previewClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#previewClickHandler);
+  };
 
-    return this.#element;
-  }
+  #previewClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.previewClick();
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+   setFormSubmitHandler = (callback) => {
+     this._callback.formSubmit = callback;
+     this.element.querySelector('form').addEventListener('click', this.#formSubmitHandler);
+   };
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
 }
