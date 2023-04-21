@@ -1,12 +1,11 @@
-import AbstractView from '../framework/view/abstract-view';
-import {dateFormChange, duration, getDate, getTime } from '../util.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import {dateFormChange, duration, getDate, getTime } from '../utils/util.js';
 
 const renderOffers = (allOffers, checkedOffers) => {
   let result = '';
   allOffers.forEach((offer) => {
     if (checkedOffers.includes(offer.id)) {
-      result = `${result}<li class="event__offer"><span class="event__offer-title">${offer.title}
-      </span>&plus;&euro;&nbsp;<span class="event__offer-price">${offer.price}</span></li>`;
+      result = `${result}<li class="event__offer"><span class="event__offer-title">${offer.title}</span>&plus;&euro;&nbsp;<span class="event__offer-price">${offer.price}</span></li>`;
     }
   });
   return result;
@@ -55,7 +54,7 @@ const createPointTemplate = (point, destinations, offers) => {
   );
 };
 
-export default class Point extends AbstractView {
+export default class Point extends AbstractView{
   #point = null;
   #destination = null;
   #offers = null;
