@@ -24,13 +24,6 @@ const duration = (dateFrom, dateTo) => {
   return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
 };
 
-
-const getDate = (date) => dayjs(date).format(DATE_FORMAT);
-
-const getTime = (date) => dayjs(date).format(TIME_FORMAT);
-
-const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
-
 const getRandomPositiveInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -45,4 +38,16 @@ const getRandomElement = (elements) => {
   return elements[getRandomPositiveInteger(MIN, max)];
 };
 
-export { getRandomPositiveInteger, getRandomElement, dateFormChange, duration, getDate, getDateTime, getTime };
+const getDate = (date) => dayjs(date).format(DATE_FORMAT);
+
+const getTime = (date) => dayjs(date).format(TIME_FORMAT);
+
+const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
+
+const isPointDatePast = (date) => dayjs().diff(date, 'day') > 0;
+
+const isPointDateFuture = (date) => date.diff(dayjs(), 'day') >= 0;
+
+const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'day') > 0 && dateTo.diff(dayjs(), 'day') > 0;
+
+export { getRandomPositiveInteger, getRandomElement, dateFormChange, duration, getDate, getDateTime, getTime, isPointDateFuture, isPointDatePast, isPointDateFuturePast };

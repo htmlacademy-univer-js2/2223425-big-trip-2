@@ -1,5 +1,5 @@
-import AbstractView from '../framework/view/abstract-view';
-import { getDateTime } from '../util.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { getDateTime } from '../utils/util.js';
 
 const renderDestinationPictures = (pictures) => {
   let result = '';
@@ -184,10 +184,10 @@ export default class PointEdit extends AbstractView {
     this._callback.previewClick();
   };
 
-   setFormSubmitHandler = (callback) => {
-     this._callback.formSubmit = callback;
-     this.element.querySelector('form').addEventListener('click', this.#formSubmitHandler);
-   };
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('click', this.#formSubmitHandler);
+  };
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
