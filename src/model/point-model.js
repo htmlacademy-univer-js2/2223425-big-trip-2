@@ -1,4 +1,4 @@
-export default class PointsModel {
+export default class PointModel {
   #points = [];
   #destinations = [];
   #offers = [];

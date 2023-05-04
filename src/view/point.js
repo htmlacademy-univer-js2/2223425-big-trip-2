@@ -54,7 +54,7 @@ const createPointTemplate = (point, destinations, offers) => {
   );
 };
 
-export default class Point extends AbstractView{
+export default class PointView extends AbstractView {
   #point = null;
   #destination = null;
   #offers = null;
@@ -75,8 +75,18 @@ export default class Point extends AbstractView{
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   };
 
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
+  };
+
   #editClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.editClick();
+  };
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   };
 }
