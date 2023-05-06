@@ -101,8 +101,7 @@ export default class PointPresenter {
     this.#replacePreviewPointToEditingPoint();
   };
 
-  #handlePreviewClick = (evt) => {
-    evt.preventDefault();
+  #handlePreviewClick = () => {
     this.#replaceEditingPointToPreviewPoint();
   };
 

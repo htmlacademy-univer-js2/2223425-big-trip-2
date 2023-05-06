@@ -90,6 +90,6 @@ const generatePoint = () => {
 };
 
 
-const getPoints = () => Array.from({length: POINTS_COUNT}).map(() => generatePoint());
+const getPoints = () => Array.from({length: POINTS_COUNT}).map(() => generatePoint()).sort();
 
 export {getPoints, getDestinations, getOffersByType };
