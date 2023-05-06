@@ -74,6 +74,16 @@ const updateItem = (items, update) => {
   ];
 };
 
+const sortPricePoint = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
+
+const sortDayPoint = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+
+const sortTimePoint = (pointA, pointB) => {
+  const timePointA = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
+  const timePointB = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
+  return timePointB - timePointA;
+};
+
 const getDate = (date) => dayjs(date).format(DATE_FORMAT);
 
 const getTime = (date) => dayjs(date).format(TIME_FORMAT);
@@ -86,6 +96,4 @@ const isPointDateFuture = (date) => date.diff(dayjs(), 'day') >= 0;
 
 const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'day') > 0 && dateTo.diff(dayjs(), 'day') > 0;
 
-export {getDaysOutput, updateItem, getHoursOutput, getMinutesOutput, getRandomPositiveInteger, getRandomElement, dateFormChange, duration, getDate, getDateTime, getTime, isPointDateFuture, isPointDatePast, isPointDateFuturePast };
-
-
+export {sortPricePoint, sortDayPoint, sortTimePoint, getDaysOutput, updateItem, getHoursOutput, getMinutesOutput, getRandomPositiveInteger, getRandomElement, dateFormChange, duration, getDate, getDateTime, getTime, isPointDateFuture, isPointDatePast, isPointDateFuturePast };
