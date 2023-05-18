@@ -1,7 +1,6 @@
 import { render, RenderPosition } from '../framework/render.js';
-import { SortType } from '../constant.js';
 import TripList from '../view/trip-list.js';
-import { sortDayPoint, sortPricePoint, sortTimePoint } from '../utils/util.js';
+import { SortType, sorting } from '../utils/sort.js';
 import Sort from '../view/sort.js';
 import PointPresenter from './point-presenter.js';
 import { updateItem } from '../utils/util.js';
@@ -52,18 +51,7 @@ export default class TripPresenter {
   };
 
   #sortPoint = (sortType) => {
-    switch (sortType) {
-      case SortType.DAY:
-        this.#boardPoints.sort(sortDayPoint);
-        break;
-      case SortType.TIME:
-        this.#boardPoints.sort(sortTimePoint);
-        break;
-      case SortType.PRICE:
-        this.#boardPoints.sort(sortPricePoint);
-        break;
-    }
-
+    sorting[sortType](this.#boardPoints);
     this.#currentSortType = sortType;
   };
 
@@ -78,7 +66,7 @@ export default class TripPresenter {
   };
 
   #renderSort = () => {
-    this.#boardPoints.sort(sortDayPoint);
+    sorting[SortType.DAY](this.#boardPoints);
     render(this.#sortComponent, this.#tripContainer, RenderPosition.AFTERBEGIN);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
