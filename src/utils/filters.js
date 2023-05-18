@@ -1,4 +1,4 @@
-import { isPointDateFuture, isPointDatePast, isPointDateFuturePast } from './util.js';
+import { isPointDateFuture, isPointDatePast, isPointDateFuturePast } from './dayjs.js';
 
 const FilterType = {
   EVERYTHING: 'everything',
