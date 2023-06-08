@@ -184,11 +184,11 @@ export default class PointEdit extends AbstractStatefulView {
 
   #offersChangeHandler = (evt) => {
     evt.preventDefault();
-    if (this._state.offerIds.includes(Number(evt.target.id.slice(-1)))) {
-      this._state.offerIds = this._state.offerIds.filter((n) => n !== Number(evt.target.id.slice(-1)));
+    if (this._state.offerIds.includes(Number())) {
+      this._state.offerIds = this._state.offerIds.filter((n) => n !== Number());
     }
     else {
-      this._state.offerIds.push(Number(evt.target.id.slice(-1)));
+      this._state.offerIds.push(Number());
     }
     this.updateElement({
       offerIds: this._state.offerIds,
