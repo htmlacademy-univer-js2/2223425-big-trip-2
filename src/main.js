@@ -1,25 +1,45 @@
-import { render } from './framework/render.js';
-import Filter from './view/filter.js';
-import TripPresenter from './presenter/trip.js';
-import Menu from './view/menu.js';
-import PointModel from './model/point-model.js';
-import { getPoints, getDestinations, getOffersByType } from './mocks/points.js';
-import { generateFilter } from './mocks/filters.js';
-
-const siteHeaderElement = document.querySelector('.trip-main');
-const siteMainElement = document.querySelector('.page-main');
+import Trip from './presenter/trip.js';
+import PointsModel from './model/point-model.js';
+import OfferModel from './model/offer-model.js';
+import DestinationModel from './model/destination-model.js';
+import Filters from './presenter/filters.js';
+import FilterModel from './model/filter-model.js';
+import PointsApi from './point-api.js';
 
 
-const points = getPoints();
-const offersByType = getOffersByType();
-const destinations = getDestinations();
+const AUTHORIZATION = 'Basic hs2323322dSD6FS34Djsh2asda5owqo2j2';
+const END_POINT = 'https://18.ecmascript.pages.academy/big-trip';
 
-const pointModel = new PointModel();
-pointModel.init(points, destinations, offersByType);
-const boardPresenter = new TripPresenter(siteMainElement.querySelector('.trip-events'), pointModel);
+const tripMainElement = document.querySelector('.trip-main');
+const tripEventElement = document.querySelector('.trip-events');
+const filterContainerElement = tripMainElement.querySelector('.trip-controls__filters');
+const newEventButtonContainerElement = tripMainElement.querySelector('.trip-main__event-add-btn');
+
+const offerByTypeModel = new OfferModel(new PointsApi(END_POINT, AUTHORIZATION));
+const destinationModel = new DestinationModel(new PointsApi(END_POINT, AUTHORIZATION));
+const pointModel = new PointsModel(new PointsApi(END_POINT, AUTHORIZATION));
+const filterModel = new FilterModel();
+
+
+const boardPresenter = new Trip(tripEventElement, pointModel, offerByTypeModel, destinationModel, filterModel);
+const filterPresenter = new Filters(filterContainerElement, tripMainElement, filterModel, pointModel, offerByTypeModel, destinationModel);
+
+const handleNewEventClose = () => {
+  newEventButtonContainerElement.disabled = false;
+};
+
+const handleNewEventButtonClick = () => {
+  boardPresenter.createPoint(handleNewEventClose);
+  newEventButtonContainerElement.disabled = true;
+};
+
+filterPresenter.init();
 boardPresenter.init();
 
-const filters = generateFilter(pointModel.points);
-
-render(new Filter({filters}), siteHeaderElement.querySelector('.trip-controls__filters'));
-render(new Menu(), siteHeaderElement.querySelector('.trip-controls__navigation'));
+offerByTypeModel.init().finally(()=>{
+  destinationModel.init().finally(()=>{
+    pointModel.init().finally(()=>{
+      newEventButtonContainerElement.addEventListener('click', handleNewEventButtonClick);
+    });
+  });
+});
