@@ -1,60 +1,34 @@
 import dayjs from 'dayjs';
-const HOUR_MINUTES_COUNT = 60;
-const TOTAL_DAY_MINUTES_COUNT = 1440;
-const DATE_FORMAT = 'YYYY-MM-DD';
-const DATE_TIME_FORMAT = 'DD/MM/YY hh:mm';
-const TIME_FORMAT = 'hh:mm';
 
-const humanizePointDueDate = (date) => dayjs(date).format('DD MMM');
+const MAX_MINUTES = 60;
+const MAX_HOURS = 24;
 
-const getDaysOutput = (days) => {
-  if (!days) {
-    return '';
+const humanizeEventTime = (dateTime, format) => dayjs(dateTime).format(format).toUpperCase();
+
+const transformTimeDifference = (difference) => {
+  let format = 'DD[D] HH[H] mm[M]';
+  if(difference < MAX_MINUTES){
+    format = 'mm[M]';
   }
-  if (days < 10) {
-    return `0${days}D`;
+  else if (difference / MAX_MINUTES < MAX_HOURS) {
+    format = 'HH[H] mm[M]';
   }
-  return `${days}D`;
+  return humanizeEventTime(dayjs().date(difference / (MAX_MINUTES * MAX_HOURS)).hour((difference / MAX_MINUTES) % MAX_HOURS).minute(difference % MAX_MINUTES), format);
 };
 
-const getHoursOutput = (days, restHours) => {
-  if (!days && !restHours) {
-    return '';
-  }
-  if(restHours < 10) {
-    return `0${restHours}H`;
-  }
-  return `${restHours}H`;
+const getTimeDifference = (dateFrom, dateTo) => transformTimeDifference(dayjs(dateTo).diff(dayjs(dateFrom), 'minute'));
+
+const isPast = (date, unit) => dayjs().isAfter(dayjs(date), unit);
+
+const isFuture = (date, unit) => dayjs().isBefore(dayjs(date), unit) || dayjs().isSame(dayjs(date), unit);
+
+
+const sortByDate = (currentPoint, nextPoint) => {
+  const dateFromDifference = dayjs(currentPoint.dateFrom).diff(dayjs(nextPoint.dateFrom));
+  return dateFromDifference === 0 ? dayjs(nextPoint.dateTo).diff(dayjs(currentPoint.dateTo)) : dateFromDifference;
 };
 
-const getMinutesOutput = (restMinutes) => (restMinutes < 10) ? `0${restMinutes}M` : `${restMinutes}M`;
+const sortByDuration = (currentPoint, nextPoint) => dayjs(nextPoint.dateTo).diff(dayjs(nextPoint.dateFrom)) - dayjs(currentPoint.dateTo).diff(dayjs(currentPoint.dateFrom));
+const areDatesSame = (oldDate, newDate) => dayjs(oldDate).isSame(dayjs(newDate));
 
-const duration = (dateFrom, dateTo) => {
-  const start = dayjs(dateFrom);
-  const end = dayjs(dateTo);
-  const difference = end.diff(start, 'minute');
-
-  const days = Math.floor(difference / TOTAL_DAY_MINUTES_COUNT);
-  const restHours = Math.floor((difference - days * TOTAL_DAY_MINUTES_COUNT) / HOUR_MINUTES_COUNT);
-  const restMinutes = difference - (days * TOTAL_DAY_MINUTES_COUNT + restHours * HOUR_MINUTES_COUNT);
-
-  const daysOutput = getDaysOutput(days);
-  const hoursOutput = getHoursOutput(days, restHours);
-  const minutesOutput = getMinutesOutput(restMinutes);
-
-  return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
-};
-
-const getDate = (date) => dayjs(date).format(DATE_FORMAT);
-
-const getTime = (date) => dayjs(date).format(TIME_FORMAT);
-
-const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
-
-const isPointDatePast = (date) => dayjs().diff(date, 'day') > 0;
-
-const isPointDateFuture = (date) => date.diff(dayjs(), 'day') >= 0;
-
-const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'day') > 0 && dateTo.diff(dayjs(), 'day') > 0;
-
-export { humanizePointDueDate, duration, getDate, getDateTime, getTime, isPointDatePast, isPointDateFuture, isPointDateFuturePast };
+export {humanizeEventTime, getTimeDifference, isPast, isFuture, sortByDate, sortByDuration, areDatesSame};
